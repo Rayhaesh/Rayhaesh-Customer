@@ -265,15 +265,14 @@ const BuyListings = () => {
                   })}
               </SimpleGrid>
             )}
-            <Group position="center" mt={"lg"}>
-              <ListingPagination
-                postsPerPage={postsPerPage}
-                totalPosts={allproperties.length}
-                paginate={paginate}
-                currentPosts={currentPosts}
-                filteredData={filteredData}
-              />
-            </Group>
+            <ListingPagination
+              postsPerPage={postsPerPage}
+              totalPosts={allproperties.length}
+              paginate={paginate}
+              currentPosts={currentPosts}
+              filteredData={filteredData}
+              currentPage={currentPage}
+            />
           </Grid.Col>
         </Grid>
       </Container>
