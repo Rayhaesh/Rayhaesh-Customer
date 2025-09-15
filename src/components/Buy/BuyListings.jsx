@@ -94,30 +94,12 @@ const BuyListings = () => {
   }, [location]);
 
   useEffect(() => {
-    setFilteredData(
-      filtering(
-        city,
-        categoryValue,
-        subCategoryValue,
-        areaValue,
-        priceValue,
-        allproperties
-      )
-    );
-  }, [
-    city,
-    categoryValue,
-    areaValue,
-    priceValue,
-    subCategoryValue,
-    allproperties,
-  ]);
+    setFilteredData(filtering(city, categoryValue, subCategoryValue, areaValue, priceValue, allproperties));
+  }, [city, categoryValue, areaValue, priceValue, subCategoryValue, allproperties]);
 
   useEffect(() => {
     axios
-      .get(
-        import.meta.env.VITE_REACT_APP_BACKEND_URL + "/user/getAllProperties"
-      )
+      .get(import.meta.env.VITE_REACT_APP_BACKEND_URL + "/user/getAllProperties")
       .then((data) => {
         setIsLoaded(false);
         setAllProperties(data?.data?.body);
@@ -153,59 +135,42 @@ const BuyListings = () => {
           </Grid.Col>
 
           <Grid.Col md={!match1200 ? 9 : 12}>
-            <Group
+            <Box
               style={{
-                justifyContent: "space-between",
+                backgroundColor: "#f8f9fa",
+                padding: "20px",
+                borderRadius: "12px",
+                marginBottom: "24px",
+                border: "1px solid #e9ecef",
               }}
-              mb="lg"
             >
               <Group
-                noWrap
                 style={{
-                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
-                position="apart"
+                mb="md"
               >
-                <Group noWrap spacing={3}>
+                <Group noWrap spacing={8}>
                   <Text
                     style={{
-                      fontWeight: 600,
+                      fontWeight: 700,
+                      fontSize: "18px",
+                      color: "#2c3e50",
                     }}
                   >
-                    {/* {
-                      currentPosts.filter((property) => {
-                        if (query === '') {
-                          return property
-                        } else if (
-                          property.propertyCity
-                            .toLowerCase()
-                            .includes(query.toLowerCase())
-                        ) {
-                          return property
-                        }
-                        return null
-                      }).length
-                    }{' '} */}
-                    {/* {allproperties?.length} */}
                     {filteredData?.length}
                   </Text>
-                  <Text>Results</Text>
+                  <Text
+                    style={{
+                      fontSize: "16px",
+                      color: "#6c757d",
+                    }}
+                  >
+                    Properties Found
+                  </Text>
                 </Group>
 
-                {match1200 ? (
-                  <Input
-                    placeholder="Search"
-                    icon={<IconSearch />}
-                    style={{ width: "100%" }}
-                    onChange={(e) => setQuery(e.target.value)}
-                  />
-                ) : (
-                  <Input
-                    placeholder="Search"
-                    icon={<IconSearch />}
-                    onChange={(e) => setQuery(e.target.value)}
-                  />
-                )}
                 {match1200 && (
                   <Button
                     onClick={() => {
@@ -214,13 +179,50 @@ const BuyListings = () => {
                     style={{
                       backgroundColor: "#D92228",
                       color: "white",
+                      borderRadius: "8px",
+                      fontWeight: 600,
+                      padding: "12px 20px",
+                      boxShadow: "0 2px 8px rgba(217, 34, 40, 0.3)",
                     }}
+                    leftIcon={<IconSearch size={16} />}
+                    size="md"
                   >
                     Filters
                   </Button>
                 )}
               </Group>
-            </Group>
+
+              <Group
+                style={{
+                  width: "100%",
+                }}
+                position="apart"
+                noWrap
+              >
+                <Input
+                  placeholder="Search by city, property type, or keywords..."
+                  icon={<IconSearch size={18} />}
+                  style={{
+                    width: match1200 ? "100%" : "400px",
+                    flex: match1200 ? 1 : "none",
+                  }}
+                  onChange={(e) => setQuery(e.target.value)}
+                  value={query}
+                  styles={{
+                    input: {
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      fontSize: "14px",
+                      padding: "12px 16px",
+                      "&:focus": {
+                        borderColor: "#D92228",
+                        boxShadow: "0 0 0 3px rgba(217, 34, 40, 0.1)",
+                      },
+                    },
+                  }}
+                />
+              </Group>
+            </Box>
             {loading ? (
               <SixCardSkeleton />
             ) : allproperties.length === 0 ? (
@@ -231,19 +233,22 @@ const BuyListings = () => {
               <SimpleGrid
                 cols={3}
                 breakpoints={[
-                  { maxWidth: 950, cols: 2, spacing: "md" },
-                  { maxWidth: 600, cols: 1 },
+                  { maxWidth: 1000, cols: 2, spacing: "sm" },
+                  { maxWidth: 600, cols: 1, spacing: "xs" },
                 ]}
+                sx={{
+                  "& > div": {
+                    padding: "4px",
+                    display: "flex",
+                    justifyContent: "center",
+                  },
+                }}
               >
                 {currentPosts
                   .filter((property) => {
                     if (query === "") {
                       return property;
-                    } else if (
-                      property?.propertyCity
-                        ?.toLowerCase()
-                        .includes(query.toLowerCase())
-                    ) {
+                    } else if (property?.propertyCity?.toLowerCase().includes(query.toLowerCase())) {
                       return property;
                     }
                   })
@@ -272,7 +277,38 @@ const BuyListings = () => {
           </Grid.Col>
         </Grid>
       </Container>
-      <Modal opened={opened} onClose={() => setOpened(false)}>
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title={
+          <Group position="apart" style={{ width: "100%" }}>
+            <Text style={{ fontSize: 22, fontWeight: 700, color: "#2c3e50" }}>Advanced Filters</Text>
+            <Group noWrap spacing={8}>
+              <Text style={{ fontSize: 14, color: "#6c757d" }}>{filteredData?.length} results</Text>
+            </Group>
+          </Group>
+        }
+        size="lg"
+        fullScreen={match1200}
+        styles={{
+          modal: {
+            borderRadius: match1200 ? "0" : "16px",
+            maxHeight: match1200 ? "100vh" : "90vh",
+          },
+          header: {
+            borderBottom: "1px solid #e9ecef",
+            paddingBottom: 16,
+            marginBottom: 20,
+            backgroundColor: "#f8f9fa",
+            borderRadius: match1200 ? "0" : "16px 16px 0 0",
+          },
+          body: {
+            padding: match1200 ? "20px" : "24px",
+            maxHeight: match1200 ? "calc(100vh - 80px)" : "calc(90vh - 80px)",
+            overflowY: "auto",
+          },
+        }}
+      >
         <Filter
           city={city}
           setCity={setCity}
@@ -285,6 +321,25 @@ const BuyListings = () => {
           priceValue={priceValue}
           setPriceValue={setPriceValue}
         />
+
+        {match1200 && (
+          <Group mt="xl" position="center">
+            <Button
+              onClick={() => setOpened(false)}
+              style={{
+                backgroundColor: "#D92228",
+                color: "white",
+                borderRadius: "8px",
+                fontWeight: 600,
+                padding: "12px 32px",
+                minWidth: "120px",
+              }}
+              size="lg"
+            >
+              Apply Filters
+            </Button>
+          </Group>
+        )}
       </Modal>
     </>
   );

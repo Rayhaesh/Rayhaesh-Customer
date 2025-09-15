@@ -55,13 +55,13 @@ export default function ListingCarousel({ listings, loading, error }) {
             },
           }}
         >
-          <Carousel.Slide>
+          <Carousel.Slide sx={{ padding: "8px" }}>
             <CardSkeleton />
           </Carousel.Slide>
-          <Carousel.Slide>
+          <Carousel.Slide sx={{ padding: "8px" }}>
             <CardSkeleton />
           </Carousel.Slide>
-          <Carousel.Slide>
+          <Carousel.Slide sx={{ padding: "8px" }}>
             <CardSkeleton />
           </Carousel.Slide>
         </Carousel>
@@ -115,6 +115,7 @@ export default function ListingCarousel({ listings, loading, error }) {
                 "&:hover": {
                   cursor: "pointer",
                 },
+                padding: "8px",
               }}
               key={property?._id}
             >
