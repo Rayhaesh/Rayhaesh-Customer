@@ -18,12 +18,53 @@ export default function ListingCarousel({ listings, loading, error }) {
   return (
     <>
       {loading && (
-        <Group position="center">
-          <CardSkeleton />
-          <CardSkeleton />
-          <CardSkeleton />
-          {/* <CardSkeleton /> */}
-        </Group>
+        <Carousel
+          slideGap="md"
+          slideSize={"33%"}
+          breakpoints={[
+            { maxWidth: "xl", slideSize: "33%" },
+            { maxWidth: "lg", slideSize: "50%" },
+            { maxWidth: "xs", slideSize: "100%", slideGap: "sm" },
+          ]}
+          loop={false}
+          align="start"
+          nextControlIcon={<IconArrowRight size={18} style={{ color: "#fff" }} />}
+          previousControlIcon={<IconArrowLeft size={18} style={{ color: "#fff" }} />}
+          styles={{
+            control: {
+              border: "1px solid red",
+              width: "40px",
+              height: "40px",
+              backgroundColor: "#D92228",
+              opacity: 100,
+
+              "&:first-of-type": {
+                marginLeft: -50,
+
+                "@media (max-width: 768px)": {
+                  marginLeft: 0,
+                },
+              },
+              "&:last-of-type": {
+                marginRight: -50,
+
+                "@media (max-width: 768px)": {
+                  marginRight: 0,
+                },
+              },
+            },
+          }}
+        >
+          <Carousel.Slide>
+            <CardSkeleton />
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <CardSkeleton />
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <CardSkeleton />
+          </Carousel.Slide>
+        </Carousel>
       )}
       {listings.length !== 0 && (
         <Carousel
@@ -38,12 +79,8 @@ export default function ListingCarousel({ listings, loading, error }) {
           align="center"
           // controlsOffset={0}
           // slidesToScroll={match768 ? 1 : 3}
-          nextControlIcon={
-            <IconArrowRight size={18} style={{ color: "#fff" }} />
-          }
-          previousControlIcon={
-            <IconArrowLeft size={18} style={{ color: "#fff" }} />
-          }
+          nextControlIcon={<IconArrowRight size={18} style={{ color: "#fff" }} />}
+          previousControlIcon={<IconArrowLeft size={18} style={{ color: "#fff" }} />}
           styles={{
             control: {
               border: "1px solid red",
@@ -81,11 +118,7 @@ export default function ListingCarousel({ listings, loading, error }) {
               }}
               key={property?._id}
             >
-              <Link
-                to={`/property/${property?._id}`}
-                state={{ data: property }}
-                style={{ textDecoration: "none" }}
-              >
+              <Link to={`/property/${property?._id}`} state={{ data: property }} style={{ textDecoration: "none" }}>
                 <ListingCardAccordingToOriginalDesign property={property} />
               </Link>
             </Carousel.Slide>

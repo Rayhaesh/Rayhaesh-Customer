@@ -1,55 +1,53 @@
-import { Card, Group, Paper, Skeleton } from '@mantine/core'
-import React from 'react'
+import React from "react";
+
 const CardSkeleton = () => {
   return (
-    <Card
-      radius={'md'}
-      sx={{
-        borderRadius: '0.5rem',
-        ':hover': {
-          boxShadow: '0 5px 12px #0003',
-        },
-        boxShadow: '0 2px 8px #00000026',
-        transition: 'box-shadow .2s',
-        transitionDuration: '0.2s',
-        transitionTimingFunction: 'ease',
-        transitionDelay: '0s',
-        transitionProperty: 'box-shadow',
-      }}
-      style={{ width: '320px' }}
-    >
-      <Card.Section style={{ height: '201px' }}>
-        <Skeleton height={'201px'} width={'100%'} />
-      </Card.Section>
-      <Card.Section style={{ height: '154px' }}>
-        <Paper p={'lg'}>
-          <Skeleton height={16} width="50%" radius="xl" mb="sm" />
+    <div className="card flex-1 shadow-md m-2 rounded-xl hover:scale-[1.03] hover:shadow-xl transition-all duration-200">
+      {/* Image container with aspect-video ratio */}
+      <div className="image-container relative w-full aspect-video">
+        <div className="w-full h-full bg-gray-200 rounded-tr-[10px] rounded-tl-[10px] animate-pulse"></div>
+        {/* Overlay badge skeleton */}
+        <div className="absolute top-0 left-0 flex items-center rounded-br-[74px] bg-gray-300 pl-4 pr-6 py-1 rounded-tl-[10px] animate-pulse">
+          <div className="w-24 h-6 bg-gray-300 rounded"></div>
+        </div>
+      </div>
 
-          <Group spacing={3} noWrap>
-            <Skeleton height={14} mt={4} width="10%" radius="xl" />
+      {/* Details section */}
+      <div className="details mt-[16px] p-4">
+        {/* Property title skeleton */}
+        <div className="mb-[10px] animate-pulse">
+          <div className="w-3/4 h-6 bg-gray-200 rounded"></div>
+        </div>
 
-            <Skeleton height={14} mt={4} width="15%" radius="xl" />
+        {/* Location with icon skeleton */}
+        <div className="flex items-center gap-[5px] mb-4 animate-pulse">
+          <div className="w-[22px] h-[22px] bg-gray-200 rounded"></div>
+          <div className="w-24 h-5 bg-gray-200 rounded"></div>
+        </div>
 
-            <Skeleton height={14} mt={4} width="15%" radius="xl" />
+        {/* Features section skeleton */}
+        <div className="features mt-[16px] flex gap-[30px]">
+          <div className="flex items-center gap-[5px] animate-pulse">
+            <div className="w-[22px] h-[22px] bg-gray-200 rounded"></div>
+            <div className="w-16 h-5 bg-gray-200 rounded"></div>
+          </div>
+          <div className="flex items-center gap-[5px] animate-pulse">
+            <div className="w-[22px] h-[22px] bg-gray-200 rounded"></div>
+            <div className="w-8 h-5 bg-gray-200 rounded"></div>
+          </div>
+          <div className="flex items-center gap-[5px] animate-pulse">
+            <div className="w-[22px] h-[22px] bg-gray-200 rounded"></div>
+            <div className="w-8 h-5 bg-gray-200 rounded"></div>
+          </div>
+        </div>
 
-            <Skeleton height={14} mt={4} radius="xl" width="40%" />
-          </Group>
+        {/* Price section skeleton */}
+        <div className="mt-[16px] animate-pulse">
+          <div className="w-32 h-6 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-          <Group noWrap spacing={'lg'} align={'center'} pt={10} mb="sm">
-            <Skeleton height={14} mt={4} radius="xl" width="10%" />
-            <Skeleton height={14} mt={4} radius="xl" width="40%" />
-
-            <Skeleton height={14} mt={4} radius="xl" width="50%" />
-          </Group>
-
-          <Group noWrap align={'center'} spacing={3}>
-            <Skeleton height={14} mt={4} radius="xl" width="10%" />
-            <Skeleton height={14} mt={4} radius="xl" width="50%" />
-          </Group>
-        </Paper>
-      </Card.Section>
-    </Card>
-  )
-}
-
-export default CardSkeleton
+export default CardSkeleton;
