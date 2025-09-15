@@ -12,6 +12,7 @@ import Footer from "./components/Layout/Footer";
 import Navbar from "./components/Layout/Navbar";
 import PropertyPage from "./components/Listings/PropertyPage";
 import Blogs from "./components/NewsInsights/Blogs";
+import BlogDetail from "./components/NewsInsights/BlogDetail";
 import Login from "./components/PfpManagement/Login";
 import ProfileSettings from "./components/PfpManagement/ProfileSettings";
 import RequireAuth from "./components/PfpManagement/RequireAuth";
@@ -32,8 +33,36 @@ function App() {
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token) {
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      setAuth({ name: decodedToken.name, email: decodedToken.email, token });
+      try {
+        // Check if token is a valid JWT format (has 3 parts separated by dots)
+        const tokenParts = token.split(".");
+        if (tokenParts.length === 3) {
+          // Decode the payload (second part of JWT)
+          const payload = tokenParts[1];
+          // Add padding if needed for base64 decoding
+          const paddedPayload = payload + "=".repeat((4 - (payload.length % 4)) % 4);
+          const decodedToken = JSON.parse(atob(paddedPayload));
+
+          // Check if token is expired
+          const currentTime = Date.now() / 1000;
+          if (decodedToken.exp && decodedToken.exp < currentTime) {
+            // Token is expired, remove it
+            localStorage.removeItem("token");
+            console.log("Token expired, removed from localStorage");
+          } else {
+            setAuth({ name: decodedToken.name, email: decodedToken.email, token });
+          }
+        } else {
+          // Invalid JWT format, remove it
+          localStorage.removeItem("token");
+          console.log("Invalid token format, removed from localStorage");
+        }
+      } catch (error) {
+        // Token is malformed or corrupted, remove it
+        console.error("Error decoding token:", error);
+        localStorage.removeItem("token");
+        console.log("Malformed token, removed from localStorage");
+      }
     }
     setLoading(false);
   }, []);
@@ -41,10 +70,7 @@ function App() {
   const appendCache = createEmotionCache({ key: "mantine", prepend: false });
 
   return loading ? null : (
-    <MantineProvider
-      theme={{ fontFamily: "Poppins" }}
-      emotionCache={appendCache}
-    >
+    <MantineProvider theme={{ fontFamily: "Poppins" }} emotionCache={appendCache}>
       <NotificationsProvider>
         <div
           className="App"
@@ -67,6 +93,7 @@ function App() {
                 <Route path="/forgotPassword" element={<ForgotPassword />} />
                 <Route path="/subscription" element={<Subscription />} />
                 <Route path="/blogs" element={<Blogs />} />
+                <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/properties" element={<BuyListings />} />
                 <Route path="/exchange" element={<ExchangeListings />} />
                 <Route path="/rent" element={<RentListings />} />

@@ -1,10 +1,5 @@
 import { ActionIcon, Anchor, Box, createStyles, Group } from "@mantine/core";
-import {
-  IconBrandFacebook,
-  IconBrandInstagram,
-  IconBrandTwitter,
-  IconBrandYoutube,
-} from "@tabler/icons";
+import { IconBrandFacebook, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons";
 import AppleDownloadButton from "../../assets/icons/Apple-Download-Button.png";
 import GoogleDownloadButton from "../../assets/icons/Google-Download-Button.png";
 import Background from "../../assets/images/Background.png";
@@ -13,17 +8,15 @@ import { useNavigate } from "react-router-dom";
 const useStyles = createStyles((theme) => ({
   footer: {
     position: "relative",
-    padding: 50,
-    paddingBlock: 80,
-    borderTop: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[4]
-    }`,
+    padding: 40,
+    paddingBlock: 60,
+    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[4]}`,
     // backgroundColor: "#fafafa",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    gap: 30,
+    gap: 24,
   },
   background: {
     backgroundImage: `url(${Background})`,
@@ -47,17 +40,17 @@ const useStyles = createStyles((theme) => ({
 
   links: {
     fontWeight: 400,
-    fontSize: 24,
-    gap: 30,
+    fontSize: 20,
+    gap: 24,
     alignItems: "center",
     justifyContent: "center",
     [theme.fn.smallerThan("md")]: {
-      fontSize: 20,
+      fontSize: 18,
     },
 
     [theme.fn.smallerThan("sm")]: {
-      marginTop: theme.spacing.lg,
-      marginBottom: theme.spacing.sm,
+      marginTop: theme.spacing.md,
+      marginBottom: theme.spacing.xs,
     },
   },
 }));
@@ -99,9 +92,8 @@ export default function Footer() {
       sx={{
         lineHeight: 1,
 
-        borderRight:
-          index !== links.length - 1 ? "2px solid lightgray" : "none",
-        paddingRight: "15px",
+        borderRight: index !== links.length - 1 ? "2px solid lightgray" : "none",
+        paddingRight: "12px",
       }}
     >
       {link.label}
@@ -140,59 +132,35 @@ export default function Footer() {
         <img
           src={AppleDownloadButton}
           alt="Apple Download Button"
-          width={160}
+          width={140}
           style={{
             cursor: "pointer",
           }}
-          onClick={() =>
-            window.open("https://www.apple.com/app-store/", "_blank")
-          }
+          onClick={() => window.open("https://www.apple.com/app-store/", "_blank")}
         />
 
         <img
           src={GoogleDownloadButton}
           alt="Google Download Button"
-          width={160}
+          width={140}
           style={{
             cursor: "pointer",
           }}
-          onClick={() =>
-            window.open("https://play.google.com/store/games", "_blank")
-          }
+          onClick={() => window.open("https://play.google.com/store/games", "_blank")}
         />
       </Group>
       <div className={classes.inner}>
         <Group spacing="xs" position="right" noWrap>
-          <ActionIcon
-            size="lg"
-            variant="default"
-            radius="xl"
-            onClick={() => handleRedirect("twitter")}
-          >
+          <ActionIcon size="lg" variant="default" radius="xl" onClick={() => handleRedirect("twitter")}>
             <IconBrandTwitter size={18} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon
-            size="lg"
-            variant="default"
-            radius="xl"
-            onClick={() => handleRedirect("facebook")}
-          >
+          <ActionIcon size="lg" variant="default" radius="xl" onClick={() => handleRedirect("facebook")}>
             <IconBrandFacebook size={18} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon
-            size="lg"
-            variant="default"
-            radius="xl"
-            onClick={() => handleRedirect("instagram")}
-          >
+          <ActionIcon size="lg" variant="default" radius="xl" onClick={() => handleRedirect("instagram")}>
             <IconBrandInstagram size={18} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon
-            size="lg"
-            variant="default"
-            radius="xl"
-            onClick={() => handleRedirect("youtube")}
-          >
+          <ActionIcon size="lg" variant="default" radius="xl" onClick={() => handleRedirect("youtube")}>
             <IconBrandYoutube size={18} stroke={1.5} />
           </ActionIcon>
         </Group>
